@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f4ef">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="MacroTrack">
+<link rel="manifest" href="manifest.json">
+<title>MacroTrack — il tuo diario</title>
+<style>
+:root{--bg:#f5f4ef;--card:#fff;--ink:#20231f;--muted:#6e756d;--line:#e4e6df;--accent:#315d45;--soft:#e7efe8;--danger:#a13d36}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+main{max-width:680px;margin:auto;padding:18px 15px 35px}.top{display:flex;justify-content:space-between;align-items:center;margin:6px 0 18px}.brand{font-size:25px;font-weight:800;letter-spacing:-.8px}.sub{color:var(--muted);font-size:13px;margin-top:3px}.pill{background:var(--soft);color:var(--accent);border-radius:20px;padding:7px 10px;font-size:12px;font-weight:700}
+nav{display:flex;gap:7px;background:#eaeae3;padding:5px;border-radius:14px;margin-bottom:16px}nav button{flex:1;border:0;background:transparent;padding:10px 4px;border-radius:10px;font-weight:700;color:var(--muted)}nav button.active{background:#fff;color:var(--ink);box-shadow:0 1px 3px #0001}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 2px 8px #00000005}.date-row{display:flex;align-items:center;justify-content:space-between;gap:10px}.date-row input{max-width:160px}
+h2{font-size:18px;margin:0 0 13px}h3{font-size:15px;margin:0 0 9px}.muted{color:var(--muted);font-size:13px}.macrogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}.macro{background:#f7f8f4;border-radius:13px;padding:11px}.macro b{display:block;font-size:20px;margin:5px 0}.macro span{font-size:12px;color:var(--muted)}.track{height:6px;background:#e4e8e1;border-radius:9px;overflow:hidden;margin-top:8px}.fill{height:100%;background:var(--accent);width:0}
+label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}input,select{width:100%;border:1px solid var(--line);background:#fff;border-radius:11px;padding:12px;font:inherit;color:var(--ink);min-width:0}input[type=number]{appearance:textfield}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.triple{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+button.primary,button.secondary,button.danger{border:0;border-radius:12px;padding:12px 14px;font:inherit;font-weight:750;cursor:pointer}button.primary{background:var(--accent);color:#fff;width:100%;margin-top:12px}button.secondary{background:var(--soft);color:var(--accent)}button.danger{background:#f8e9e7;color:var(--danger);padding:7px 10px;font-size:12px}.meal{border:1px solid var(--line);border-radius:14px;margin:10px 0;overflow:hidden;background:#fff}.mealhead{display:flex;justify-content:space-between;align-items:center;padding:13px;background:#fbfcf9}.mealhead strong{font-size:15px}.mealbody{padding:0 13px}.food{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--line)}.foodinfo{flex:1;min-width:0}.foodinfo b{display:block;font-size:14px;overflow-wrap:anywhere}.foodinfo small{color:var(--muted);font-size:12px}.empty{padding:13px 0;color:var(--muted);font-size:13px}
+.hidden{display:none!important}.note{background:#fff8df;border-radius:12px;padding:12px;color:#6b5718;font-size:13px;line-height:1.4}.recipeitem{padding:12px 0;border-bottom:1px solid var(--line)}.recipeitem:last-child{border-bottom:0}.recipehead{display:flex;justify-content:space-between;gap:8px;align-items:center}.smallbtn{border:0;background:var(--soft);color:var(--accent);padding:8px 10px;border-radius:9px;font-weight:700}.footer{text-align:center;color:var(--muted);font-size:11px;padding:18px 5px}
+#scanner{width:100%;overflow:hidden;border-radius:12px;margin-top:10px}a{color:var(--accent)}
+</style>
+</head>
+<body><main>
+<header class="top"><div><div class="brand">MacroTrack</div><div class="sub">I tuoi obiettivi. Le tue regole.</div></div><div class="pill">SOLO TU</div></header>
+<nav><button class="active" data-tab="diary">Diario</button><button data-tab="goals">Obiettivi</button><button data-tab="recipes">Ricette</button></nav>
+
+<section id="diary">
+<div class="card"><div class="date-row"><div><h2 style="margin-bottom:3px">Il tuo riepilogo</h2><div class="muted">Scegli il giorno da consultare</div></div><input id="day" type="date"></div>
+<div class="macrogrid" id="summary"></div></div>
+<div class="card"><h2>Aggiungi alimento</h2>
+<label for="meal">Pasto</label><select id="meal"><option>Colazione</option><option>Spuntino mattina</option><option>Pranzo</option><option>Merenda</option><option>Cena</option></select>
+<label for="foodName">Nome alimento</label><input id="foodName" placeholder="Es. yogurt greco, riso, mela">
+<div class="row"><div><label for="grams">Quantità (g)</label><input id="grams" type="number" min="0.1" step="any" value="100"></div><div><label for="barcode">Codice a barre (facoltativo)</label><input id="barcode" inputmode="numeric" placeholder="EAN / UPC"></div></div>
+<button class="secondary" id="lookup" style="width:100%;margin-top:10px">Cerca prodotto dal codice</button>
+<div id="lookupMsg" class="muted" style="margin-top:8px"></div>
+<p class="muted" style="margin:13px 0 0">Inserisci i valori nutrizionali indicati sull'etichetta, per 100 g.</p>
+<div class="triple"><div><label for="p">Proteine (g)</label><input id="p" type="number" min="0" step="any" value="0"></div><div><label for="c">Carboidrati (g)</label><input id="c" type="number" min="0" step="any" value="0"></div><div><label for="f">Grassi (g)</label><input id="f" type="number" min="0" step="any" value="0"></div></div>
+<label for="kcal">Calorie per 100 g (facoltative)</label><input id="kcal" type="number" min="0" step="any" placeholder="Se vuoto, stima dai macro">
+<button class="primary" id="addFood">+ Registra alimento</button>
+</div>
+<div id="mealList"></div>
+</section>
+
+<section id="goals" class="hidden">
+<div class="card"><h2>I tuoi obiettivi giornalieri</h2><p class="muted">Li scegli tu e non cambieranno da soli.</p>
+<div class="triple"><div><label for="gp">Proteine (g)</label><input id="gp" type="number" min="0" step="any"></div><div><label for="gc">Carboidrati (g)</label><input id="gc" type="number" min="0" step="any"></div><div><label for="gf">Grassi (g)</label><input id="gf" type="number" min="0" step="any"></div></div>
+<label for="gkcal">Obiettivo calorie (opzionale)</label><input id="gkcal" type="number" min="0" placeholder="Calcolate dai macro se lasci vuoto">
+<button class="primary" id="saveGoals">Salva i miei obiettivi</button></div>
+<div class="card"><h2>Backup dei dati</h2><p class="muted">Esporta una copia dei tuoi alimenti, obiettivi e ricette per conservarla o trasferirla.</p><button class="secondary" id="export">Esporta backup JSON</button><label for="importFile">Ripristina un backup</label><input type="file" id="importFile" accept=".json,application/json"></div>
+</section>
+
+<section id="recipes" class="hidden">
+<div class="card"><h2>Crea una ricetta</h2><label for="recipeName">Nome ricetta</label><input id="recipeName" placeholder="Es. pancake proteici"><div class="row"><div><label for="servings">Numero porzioni</label><input id="servings" type="number" min="1" step="1" value="1"></div><div><label for="recipeMeal">Aggiungi a pasto</label><select id="recipeMeal"><option>Colazione</option><option>Spuntino mattina</option><option>Pranzo</option><option>Merenda</option><option>Cena</option></select></div></div>
+<p class="muted">Per comporre la ricetta, registra prima i singoli ingredienti nel diario. Poi puoi selezionarli qui sotto.</p><div id="recipeIngredients"></div><button class="primary" id="saveRecipe">Salva ricetta dagli ingredienti selezionati</button></div>
+<div class="card"><h2>Le mie ricette</h2><div id="recipeList"></div></div>
+</section>
+<div class="footer">I dati vengono salvati nel browser di questo dispositivo. Esporta periodicamente un backup: cancellando i dati di Safari potresti perderli.</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const today=()=>new Date().toLocaleDateString('sv-SE');
+let state=load();
+function load(){try{return JSON.parse(localStorage.getItem('macrotrack_v1'))||{goals:{p:150,c:250,f:60,kcal:0},entries:[],recipes:[]}}catch(e){return {goals:{p:150,c:250,f:60,kcal:0},entries:[],recipes:[]}}}
+function persist(){localStorage.setItem('macrotrack_v1',JSON.stringify(state));render()}
+function num(id){return Math.max(0,Number($(id).value)||0)}
+function selectedDay(){return $('day').value||today()}
+function dayEntries(){return state.entries.filter(e=>e.day===selectedDay())}
+function totals(entries){return entries.reduce((a,e)=>{a.p+=e.p*e.g/100;a.c+=e.c*e.g/100;a.f+=e.f*e.g/100;a.kcal+=e.kcal*e.g/100;return a},{p:0,c:0,f:0,kcal:0})}
+function fmt(n){return (Math.round(n*10)/10).toLocaleString('it-IT')}
+function macroCard(name,val,goal,unit){let pct=goal>0?Math.min(100,val/goal*100):0;return `<div class="macro"><span>${name}</span><b>${fmt(val)}<small> / ${fmt(goal)} ${unit}</small></b><div class="track"><div class="fill" style="width:${pct}%"></div></div><span>${fmt(Math.max(0,goal-val))} ${unit} rimanenti</span></div>`}
+function render(){let t=totals(dayEntries()),g=state.goals;$('summary').innerHTML=macroCard('Proteine',t.p,g.p,'g')+macroCard('Carboidrati',t.c,g.c,'g')+macroCard('Grassi',t.f,g.f,'g');$('mealList').innerHTML=['Colazione','Spuntino mattina','Pranzo','Merenda','Cena'].map(m=>{let es=dayEntries().filter(e=>e.meal===m),mt=totals(es);return `<div class="meal"><div class="mealhead"><strong>${m}</strong><span class="muted">P ${fmt(mt.p)} · C ${fmt(mt.c)} · G ${fmt(mt.f)}</span></div><div class="mealbody">${es.length?es.map(e=>`<div class="food"><div class="foodinfo"><b>${esc(e.name)}</b><small>${fmt(e.g)} g · P ${fmt(e.p*e.g/100)} · C ${fmt(e.c*e.g/100)} · G ${fmt(e.f*e.g/100)}</small></div><button class="danger" onclick="removeEntry('${e.id}')">Elimina</button></div>`).join(''):'<div class="empty">Nessun alimento registrato.</div>'}</div></div>`}).join('');$('recipeIngredients').innerHTML=dayEntries().map(e=>`<label style="font-weight:500"><input type="checkbox" class="ing" value="${e.id}" style="width:auto;margin-right:8px">${esc(e.name)} (${fmt(e.g)} g)</label>`).join('')||'<p class="muted">Registra prima gli ingredienti nel diario del giorno selezionato.</p>';$('recipeList').innerHTML=state.recipes.map(r=>`<div class="recipeitem"><div class="recipehead"><b>${esc(r.name)}</b><button class="smallbtn" onclick="useRecipe('${r.id}')">Aggiungi al diario</button></div><p class="muted">${r.servings} porz. · per ricetta: P ${fmt(r.p)} g · C ${fmt(r.c)} g · G ${fmt(r.f)} g</p><button class="danger" onclick="deleteRecipe('${r.id}')">Elimina ricetta</button></div>`).join('')||'<p class="muted">Non hai ancora salvato ricette.</p>';['p','c','f','kcal'].forEach(k=>$('g'+k).value=g[k]||'')}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+window.removeEntry=id=>{state.entries=state.entries.filter(e=>e.id!==id);persist()}
+window.deleteRecipe=id=>{state.recipes=state.recipes.filter(r=>r.id!==id);persist()}
+window.useRecipe=id=>{let r=state.recipes.find(x=>x.id===id);if(!r)return;let meal=prompt('In quale pasto? Scrivi: Colazione, Spuntino mattina, Pranzo, Merenda o Cena','Pranzo');if(!['Colazione','Spuntino mattina','Pranzo','Merenda','Cena'].includes(meal))return;state.entries.push({id:crypto.randomUUID(),day:selectedDay(),meal,name:r.name+' (1 porzione)',g:100,p:r.p,c:r.c,f:r.f,kcal:r.kcal});persist()}
+$('day').value=today();$('day').addEventListener('change',render);
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));['diary','goals','recipes'].forEach(s=>$(s).classList.toggle('hidden',s!==b.dataset.tab));render()}));
+$('addFood').onclick=()=>{let name=$('foodName').value.trim(),g=num('grams');if(!name||g<=0){alert('Inserisci nome e quantità validi.');return}let p=num('p'),c=num('c'),f=num('f'),k=$('kcal').value.trim()===''?4*p+4*c+9*f:num('kcal');state.entries.push({id:crypto.randomUUID(),day:selectedDay(),meal:$('meal').value,name,g,p,c,f,kcal:k,barcode:$('barcode').value.trim()});['foodName','barcode'].forEach(x=>$(x).value='');$('grams').value=100;persist()};
+$('lookup').onclick=async()=>{let code=$('barcode').value.trim();if(!code){$('lookupMsg').textContent='Inserisci prima il codice a barre.';return}$('lookupMsg').textContent='Ricerca prodotto…';try{let r=await fetch('https://world.openfoodfacts.org/api/v2/product/'+encodeURIComponent(code)+'.json');let d=await r.json();if(d.status!==1)throw Error('non trovato');let p=d.product,n=p.nutriments||{};$('foodName').value=p.product_name_it||p.product_name||'Prodotto '+code;$('p').value=n.proteins_100g||0;$('c').value=n.carbohydrates_100g||0;$('f').value=n.fat_100g||0;$('kcal').value=n['energy-kcal_100g']||'';$('lookupMsg').textContent='Prodotto trovato: controlla i valori con l’etichetta prima di salvare.'}catch(e){$('lookupMsg').textContent='Prodotto non trovato o connessione non disponibile. Inserisci i valori manualmente.'}};
+$('saveGoals').onclick=()=>{state.goals={p:num('gp'),c:num('gc'),f:num('gf'),kcal:num('gkcal')};persist();alert('Obiettivi salvati. Non cambieranno automaticamente.');document.querySelector('[data-tab="diary"]').click()};
+$('saveRecipe').onclick=()=>{let name=$('recipeName').value.trim(),ids=[...document.querySelectorAll('.ing:checked')].map(x=>x.value),es=dayEntries().filter(e=>ids.includes(e.id));if(!name||!es.length){alert('Inserisci un nome e seleziona almeno un ingrediente del diario.');return}let t=totals(es);state.recipes.push({id:crypto.randomUUID(),name,servings:Math.max(1,num('servings')),p:t.p,c:t.c,f:t.f,kcal:t.kcal});$('recipeName').value='';persist();alert('Ricetta salvata!')};
+$('export').onclick=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='macrotrack-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)};
+$('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!d.goals||!Array.isArray(d.entries)||!Array.isArray(d.recipes))throw Error();if(confirm('Sostituire i dati attuali con il backup?')){state=d;persist();alert('Backup ripristinato.')}}catch(err){alert('File di backup non valido.')}e.target.value=''};
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+render();
+</script></body></html>

@@ -1,0 +1,10 @@
+{
+  "name": "MacroTrack - Diario Macro Personale",
+  "short_name": "MacroTrack",
+  "description": "Diario personale per macro, pasti e ricette",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f4ef",
+  "theme_color": "#f5f4ef",
+  "icons": []
+}
